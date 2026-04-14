@@ -1,4 +1,4 @@
-# CHA YUAN - Docker Compose Configuration
+# CHA YUAN - Docker Compose Configuration (Development - Minimal)
 # PostgreSQL 17 + Redis 7.4 - LAN Accessible
 
 services:
@@ -22,11 +22,13 @@ services:
       -c log_min_messages=warning
     ports:
       # Explicitly bind to all interfaces for LAN access
-      - "0.0.0.0:5432:5432"
+      # Using 5433 to avoid conflict with existing vectordb container
+      - "0.0.0.0:5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d:ro
     healthcheck:
+      # Fixed: use correct username 'chayuan_user' not 'chayuan'
       test: ["CMD-SHELL", "pg_isready -U chayuan_user"]
       interval: 10s
       timeout: 5s
@@ -62,66 +64,10 @@ services:
       - chayuan-network
     restart: unless-stopped
 
-  # Backend Django - Development server
-  backend:
-    build:
-      context: ../../backend
-      dockerfile: ../infra/docker/Dockerfile.backend.dev
-    container_name: chayuan-backend
-    environment:
-      DJANGO_SETTINGS_MODULE: chayuan.settings.development
-      DATABASE_URL: postgres://chayuan_user:${DB_PASSWORD:-chayuan_dev_password}@postgres:5432/chayuan_db
-      REDIS_URL: redis://redis:6379/0
-      DEBUG: "true"
-      SECRET_KEY: ${SECRET_KEY:-dev-secret-key-not-for-production}
-    ports:
-      - "8000:8000"
-    volumes:
-      - ../../backend:/app
-      - backend_static:/app/staticfiles
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    networks:
-      - chayuan-network
-    restart: unless-stopped
-    command: >
-      sh -c "python wait_for_db.py &&
-             python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
-
-  # Frontend Next.js - Development server
-  frontend:
-    build:
-      context: ../../frontend
-      dockerfile: ../infra/docker/Dockerfile.frontend.dev
-    container_name: chayuan-frontend
-    environment:
-      NEXT_PUBLIC_BACKEND_URL: http://localhost:8000
-      NEXT_PUBLIC_API_URL: http://localhost:8000/api/v1
-    ports:
-      - "3000:3000"
-    volumes:
-      - ../../frontend:/app
-      - /app/node_modules
-      - /app/.next
-    depends_on:
-      - backend
-    networks:
-      - chayuan-network
-    restart: unless-stopped
-    command: >
-      sh -c "npm install &&
-             npm run dev"
-
 volumes:
   postgres_data:
     driver: local
   redis_data:
-    driver: local
-  backend_static:
     driver: local
 
 networks:

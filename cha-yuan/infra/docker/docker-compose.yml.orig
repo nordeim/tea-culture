@@ -1,5 +1,7 @@
 # CHA YUAN - Docker Compose Configuration
-# PostgreSQL 17 + Redis 7.4 - LAN Accessible
+# PostgreSQL 17 + Redis 7.4 + Development Environment
+
+version: '3.8'
 
 services:
   # PostgreSQL 17 - Official image with Singapore locale
@@ -21,13 +23,12 @@ services:
       -c logging_collector=off
       -c log_min_messages=warning
     ports:
-      # Explicitly bind to all interfaces for LAN access
-      - "0.0.0.0:5432:5432"
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U chayuan_user"]
+      test: ["CMD-SHELL", "pg_isready -U chayuan"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -48,8 +49,7 @@ services:
       --save 60 1000
       --loglevel warning
     ports:
-      # Explicitly bind to all interfaces for LAN access
-      - "0.0.0.0:6379:6379"
+      - "6379:6379"
     volumes:
       - redis_data:/data
     healthcheck:
@@ -127,4 +127,6 @@ volumes:
 networks:
   chayuan-network:
     driver: bridge
-    # IPAM config removed - Docker auto-assigns non-conflicting subnet
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
