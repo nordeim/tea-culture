@@ -12,10 +12,10 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD:-chayuan_dev_password}
       TZ: Asia/Singapore
       PGDATA: /var/lib/postgresql/data/pgdata
+      LANG: en_SG.utf8
+      LC_ALL: en_SG.utf8
     command: >
       postgres
-      -c lc_collate=en_SG.utf8
-      -c lc_ctype=en_SG.utf8
       -c timezone=Asia/Singapore
       -c log_destination=stderr
       -c logging_collector=off
