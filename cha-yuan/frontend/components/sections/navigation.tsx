@@ -8,7 +8,6 @@ import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
 import {
   navbarVariants,
   mobileMenuVariants,
-  fadeVariants,
 } from "@/lib/animations";
 import { cn } from "@/lib/utils";
 
@@ -73,16 +72,18 @@ export function Navigation() {
     return null;
   }
 
-  return (
+return (
     <motion.nav
-      initial={prefersReducedMotion ? "scrolled" : "top"}
-      animate={isScrolled ? "scrolled" : "top"}
-      variants={prefersReducedMotion ? undefined : navbarVariants}
+      {...(!prefersReducedMotion && {
+        initial: "top",
+        animate: isScrolled ? "scrolled" : "top",
+        variants: navbarVariants,
+      })}
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
         isScrolled
-          ? "bg-ivory-50/95 backdrop-blur-xl shadow-sm"
-          : "bg-transparent"
+        ? "bg-ivory-50/95 backdrop-blur-xl shadow-sm"
+        : "bg-transparent"
       )}
     >
       <div className="container-chayuan">
@@ -149,10 +150,12 @@ export function Navigation() {
         {isMobileMenuOpen && (
           <motion.div
             id="mobile-menu"
-            initial={prefersReducedMotion ? "open" : "closed"}
-            animate="open"
-            exit="closed"
-            variants={prefersReducedMotion ? undefined : mobileMenuVariants}
+            {...(!prefersReducedMotion && {
+              initial: "closed",
+              animate: "open",
+              exit: "closed",
+              variants: mobileMenuVariants,
+            })}
             className="md:hidden bg-ivory-50/95 backdrop-blur-xl border-t border-ivory-300 fixed left-0 right-0 top-20"
           >
             <div className="px-6 py-6 space-y-4">

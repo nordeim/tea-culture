@@ -410,8 +410,7 @@ export const dialogContentVariants: Variants = {
  * Get animation props with reduced motion support
  */
 export function getAnimationProps(
-  prefersReducedMotion: boolean,
-  variants: Variants
+  prefersReducedMotion: boolean
 ): { initial: string; animate: string; transition?: object } {
   if (prefersReducedMotion) {
     return {

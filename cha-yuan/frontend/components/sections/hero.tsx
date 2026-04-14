@@ -43,16 +43,17 @@ export function HeroSection() {
       {!prefersReducedMotion && (
         <>
           <motion.div
-            initial={floatVariants.initial}
-            animate={floatVariants.animate}
+            initial={floatVariants.initial as { y: number; rotate: number }}
+            animate={floatVariants.animate as { y: number[]; rotate: number[] }}
+            transition={{ duration: 4, ease: "easeInOut", repeat: Infinity }}
             className="absolute top-32 right-16 opacity-20 hidden lg:block"
           >
             <Leaf className="w-16 h-16 text-tea-300 rotate-45" />
           </motion.div>
           <motion.div
-            initial={floatVariants.initial}
-            animate={floatVariants.animate}
-            transition={{ delay: 1 }}
+            initial={floatVariants.initial as { y: number; rotate: number }}
+            animate={floatVariants.animate as { y: number[]; rotate: number[] }}
+            transition={{ duration: 4, ease: "easeInOut", repeat: Infinity, delay: 1 }}
             className="absolute top-48 right-48 opacity-10 hidden lg:block"
           >
             <Leaf className="w-12 h-12 text-tea-200 -rotate-12" />
