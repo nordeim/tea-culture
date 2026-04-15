@@ -16,7 +16,6 @@ import { Navigation } from '@/components/sections/navigation';
 import { Footer } from '@/components/sections/footer';
 
 export default function CheckoutPage() {
-  const router = useRouter();
   const prefersReducedMotion = useReducedMotion();
   const { cart, isLoading, subtotal, gstAmount, total } = useCart();
 

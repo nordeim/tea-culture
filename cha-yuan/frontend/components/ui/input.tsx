@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  error?: string;
+  error?: string | undefined;
 }
 
 export function Input({ className, error, ...props }: InputProps) {
@@ -17,7 +17,7 @@ export function Input({ className, error, ...props }: InputProps) {
         )}
         {...props}
       />
-      {error && <p className="mt-1 text-sm text-terra-500">{error}</p>}
+      {error ? <p className="mt-1 text-sm text-terra-500">{error}</p> : null}
     </div>
   );
 }

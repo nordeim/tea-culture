@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Minus, Plus, Trash2, ShoppingBag, X, ArrowRight } from 'lucide-react';
+import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 
 import {
   Sheet,
@@ -19,7 +19,7 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useCart, type CartItem } from '@/lib/hooks/use-cart';
 import { useReducedMotion } from '@/lib/hooks/use-reduced-motion';
-import { formatPrice, calculateGST } from '@/lib/utils';
+import { formatPrice } from '@/lib/utils';
 import Image from 'next/image';
 
 // Cart Drawer Props
@@ -163,7 +163,6 @@ function EmptyCart() {
 // Main Cart Drawer Component
 export function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
   const router = useRouter();
-  const prefersReducedMotion = useReducedMotion();
 
   const {
     cart,

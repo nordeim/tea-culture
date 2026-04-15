@@ -45,9 +45,10 @@ export function SgAddressForm({ onValidChange, defaultValues }: SgAddressFormPro
       onValidChange?.(true, result.data);
     } else {
       const fieldErrors: Partial<Record<keyof SgAddressData, string>> = {};
-      result.error.errors.forEach((err) => {
-        const path = err.path[0] as keyof SgAddressData;
-        fieldErrors[path] = err.message;
+      const zodErrors = result.error;
+      zodErrors.issues.forEach((issue) => {
+        const path = issue.path[0] as keyof SgAddressData;
+        fieldErrors[path] = issue.message;
       });
       setErrors(fieldErrors);
       onValidChange?.(false);

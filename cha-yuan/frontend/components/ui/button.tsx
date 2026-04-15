@@ -18,22 +18,25 @@ const buttonVariants = cva(
       variant: {
         // Primary: Tea green background
         default:
-          "bg-tea-green-600 text-white hover:bg-tea-green-700 shadow-sm hover:shadow-md",
+          "bg-tea-600 text-white hover:bg-tea-700 shadow-sm hover:shadow-md",
+        // Tea: Explicit tea variant for semantic clarity
+        tea:
+          "bg-tea-600 text-white hover:bg-tea-700 shadow-sm hover:shadow-md",
         // Destructive: For delete/remove actions
         destructive:
           "bg-red-600 text-white hover:bg-red-700 shadow-sm",
         // Outline: Bordered style
         outline:
-          "border-2 border-earth-300 bg-cream-50 text-charcoal-900 hover:bg-earth-100 hover:border-earth-400",
+          "border-2 border-ivory-300 bg-ivory-50 text-bark-900 hover:bg-ivory-100 hover:border-ivory-400",
         // Secondary: Muted background
         secondary:
-          "bg-earth-100 text-charcoal-900 hover:bg-earth-200",
+          "bg-ivory-200 text-bark-900 hover:bg-ivory-300",
         // Ghost: Transparent with hover
         ghost:
-          "text-charcoal-700 hover:bg-earth-50 hover:text-charcoal-900",
+          "text-bark-700 hover:bg-ivory-100 hover:text-bark-900",
         // Link: Text only
         link:
-          "text-tea-green-600 underline-offset-4 hover:underline hover:text-tea-green-700",
+          "text-tea-600 underline-offset-4 hover:underline hover:text-tea-700",
       },
       size: {
         default: "h-11 px-6 py-2",

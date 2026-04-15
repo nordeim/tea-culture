@@ -1,10 +1,3 @@
-/**
- * Isomorphic authentication fetch utility
- * Works in both Server Components and Client Components
- */
-
-import { cookies } from "next/headers";
-
 interface AuthFetchOptions extends RequestInit {
   skipAuth?: boolean;
 }
@@ -18,10 +11,6 @@ interface UserProfile {
   has_pdpa_consent: boolean;
 }
 
-/**
- * Make authenticated API requests
- * Works in both Server and Client Components
- */
 export async function authFetch(
   url: string,
   options: AuthFetchOptions = {}
@@ -40,9 +29,6 @@ export async function authFetch(
   }
 }
 
-/**
- * Server-side fetch with direct backend access
- */
 async function serverFetch(
   url: string,
   options: RequestInit,
@@ -60,6 +46,7 @@ async function serverFetch(
   // Get token from cookie on server
   if (!skipAuth) {
     try {
+      const { cookies } = await import("next/headers");
       const cookieStore = await cookies();
       const token = cookieStore.get("access_token")?.value;
 
@@ -78,9 +65,6 @@ async function serverFetch(
   });
 }
 
-/**
- * Client-side fetch via BFF proxy
- */
 async function clientFetch(
   url: string,
   options: RequestInit,
@@ -98,14 +82,13 @@ async function clientFetch(
   const response = await fetch(proxyUrl, {
     ...options,
     headers,
-    credentials: "include", // Send cookies
+    credentials: "include",
   });
 
   // Handle token refresh on 401
   if (response.status === 401 && !skipAuth) {
     const refreshed = await tryRefreshToken();
     if (refreshed) {
-      // Retry the request
       return fetch(proxyUrl, {
         ...options,
         headers,
@@ -117,9 +100,6 @@ async function clientFetch(
   return response;
 }
 
-/**
- * Try to refresh the access token
- */
 async function tryRefreshToken(): Promise<boolean> {
   try {
     const response = await fetch("/api/proxy/auth/refresh/", {
@@ -134,13 +114,9 @@ async function tryRefreshToken(): Promise<boolean> {
   }
 }
 
-/**
- * Check if user is authenticated
- * Client-side only
- */
 export async function isAuthenticated(): Promise<boolean> {
   if (typeof window === "undefined") {
-    return false; // Can't determine auth status on server
+    return false;
   }
 
   try {
@@ -154,10 +130,6 @@ export async function isAuthenticated(): Promise<boolean> {
   }
 }
 
-/**
- * Get current user profile
- * Returns null if not authenticated
- */
 export async function getCurrentUser(): Promise<UserProfile | null> {
   try {
     const response = await authFetch("/api/v1/auth/me", {
