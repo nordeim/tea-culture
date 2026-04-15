@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Package, BookOpen, Gift, CheckCircle } from "lucide-react";
-import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
+import { useReducedMotion } from "../../lib/hooks/use-reduced-motion";
 import {
   scrollRevealVariants,
   staggerContainerVariants,

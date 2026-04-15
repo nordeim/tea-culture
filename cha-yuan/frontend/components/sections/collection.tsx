@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
+import { useReducedMotion } from "../../lib/hooks/use-reduced-motion";
 import {
   scrollRevealVariants,
   staggerContainerVariants,

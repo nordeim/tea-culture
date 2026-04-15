@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Leaf, ShoppingBag, Menu, X } from "lucide-react";
-import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
+import { useReducedMotion } from "../../lib/hooks/use-reduced-motion";
 import {
   navbarVariants,
   mobileMenuVariants,

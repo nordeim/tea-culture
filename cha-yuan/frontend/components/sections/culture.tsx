@@ -3,7 +3,7 @@
 
 import { motion } from "framer-motion";
 import { Flame, Eye, BookOpen, ArrowRight } from "lucide-react";
-import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
+import { useReducedMotion } from "../../lib/hooks/use-reduced-motion";
 import {
   scrollRevealVariants,
   staggerContainerVariants,

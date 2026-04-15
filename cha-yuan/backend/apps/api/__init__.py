@@ -10,6 +10,7 @@ from ninja.errors import HttpError
 from apps.api.v1.products import router as products_router
 from apps.api.v1.cart import router as cart_router
 from apps.api.v1.checkout import router as checkout_router
+from apps.api.v1.content import router as content_router
 
 
 # Create main API instance
@@ -25,3 +26,4 @@ api = NinjaAPI(
 api.add_router("/products/", products_router, tags=["products"])
 api.add_router("/cart/", cart_router, tags=["cart"])
 api.add_router("/checkout/", checkout_router, tags=["checkout"])
+api.add_router("/content/", content_router, tags=["content"])

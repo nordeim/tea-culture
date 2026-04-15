@@ -1,0 +1,12 @@
+[✓] Phase 6.0: Fix Phase 5 Technical Debt
+[✓] Phase 6.1: Write Content Model Tests (RED Phase)
+[✓] Phase 6.2: Implement Content Models (GREEN Phase)
+[✓] Phase 6.3: Django Admin Configuration
+[✓] Phase 6.4: Write Content API Tests (RED Phase)
+[•] Phase 6.5: Implement Content API Endpoints
+[ ] Phase 6.6: Frontend Components (ArticleCard, ArticleGrid)
+[ ] Phase 6.7: Culture Listing Page
+[ ] Phase 6.8: Article Detail Page with Markdown
+[ ] Phase 6.9: Markdown Rendering Tests
+[ ] Phase 6.10: Markdown Rendering Implementation
+[ ] Phase 6.11: Build Verification

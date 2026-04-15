@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ShoppingBag, Gift, Truck, ShieldCheck, Leaf, HeartHandshake } from "lucide-react";
-import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
+import { useReducedMotion } from "../../lib/hooks/use-reduced-motion";
 import { scrollRevealVariants } from "@/lib/animations";
 
 /* ============================================
