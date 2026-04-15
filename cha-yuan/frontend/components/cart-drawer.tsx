@@ -1,9 +1,3 @@
-"""
-Cart Drawer Component
-
-Sliding cart drawer with item controls, GST breakdown, and checkout CTA.
-Uses Sheet component from shadcn/ui.
-"""
 
 'use client';
 

@@ -1,10 +1,3 @@
-"""
-Cart Hook - TanStack Query
-
-Manages cart state with server synchronization.
-Follows BFF pattern via authFetch.
-"""
-
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { authFetch } from "@/lib/auth-fetch";
 import { toast } from "sonner";
