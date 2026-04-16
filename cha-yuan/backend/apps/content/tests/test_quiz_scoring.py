@@ -1,30 +1,21 @@
 """
-Quiz Scoring Algorithm Tests (TDD RED Phase)
+Quiz Scoring Algorithm Tests (TDD GREEN Phase)
 
 Tests for preference calculation algorithm and scoring logic.
-These tests define expected behavior before implementation.
-
-Scoring Logic:
-- Aggregate preference weights from selected choices
-- Normalize scores to 0-100 scale (relative to highest)
-- Return top N preferences by score
 """
 
 import pytest
 from datetime import datetime
 from decimal import Decimal
 
-
-# These imports will fail initially (expected - RED phase)
-pytest.importorskip("content.models", reason="Quiz scoring not yet implemented")
-
-from content.models import (
+# Import models directly (GREEN phase)
+from apps.content.models import (
     QuizQuestion,
     QuizChoice,
     UserPreference,
     calculate_preferences,
 )
-from core.models import User
+from apps.core.models import User
 
 
 class TestCalculatePreferences:

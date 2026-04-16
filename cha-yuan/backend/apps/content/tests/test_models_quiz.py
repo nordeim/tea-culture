@@ -1,18 +1,7 @@
 """
-Quiz Model Tests (TDD RED Phase)
+Quiz Model Tests (TDD GREEN Phase)
 
 Tests for QuizQuestion, QuizChoice, and UserPreference models.
-These tests define the expected behavior before implementation.
-
-Follows TDD workflow:
-1. RED: Write failing tests (models don't exist yet)
-2. GREEN: Implement models to pass tests
-3. REFACTOR: Clean up code while tests pass
-
-Singapore Context:
-- UserPreference linked to core.User model
-- Preferences stored as JSON with tea category weights
-- Quiz is one-time completion (not editable per scope)
 """
 
 import pytest
@@ -20,13 +9,14 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from unittest.mock import Mock, patch
 
-
-# These imports will fail initially (expected - RED phase)
-# After implementing models, these will work (GREEN phase)
-pytest.importorskip("content.models", reason="Quiz models not yet implemented")
-
-from content.models import QuizQuestion, QuizChoice, UserPreference
-from core.models import User
+# Import models directly (GREEN phase - models should exist)
+from apps.content.models import (
+    QuizQuestion,
+    QuizChoice,
+    UserPreference,
+    calculate_preferences,
+)
+from apps.core.models import User
 
 
 class TestQuizQuestion:
