@@ -22,7 +22,7 @@ import redis
 from django.conf import settings
 from django.http import HttpRequest
 
-from commerce.models import Product
+from apps.commerce.models import Product
 
 
 # Redis client configuration

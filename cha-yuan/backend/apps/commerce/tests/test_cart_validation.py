@@ -9,9 +9,9 @@ import pytest
 from decimal import Decimal
 from unittest.mock import Mock, patch
 
-pytest.importorskip("commerce.cart", reason="Cart module not yet implemented")
+pytest.importorskip("apps.commerce.cart", reason="Cart module not yet implemented")
 
-from commerce.cart import (
+from apps.commerce.cart import (
     add_to_cart,
     update_cart_item,
     validate_stock,

@@ -11,9 +11,11 @@ from decimal import Decimal
 from datetime import datetime
 from unittest.mock import Mock, patch, MagicMock
 
-pytest.importorskip("commerce.stripe_sg", reason="Stripe module not yet implemented")
+pytest.importorskip(
+    "apps.commerce.stripe_sg", reason="Stripe module not yet implemented"
+)
 
-from commerce.stripe_sg import (
+from apps.commerce.stripe_sg import (
     verify_webhook_signature,
     handle_payment_success,
     handle_payment_failure,

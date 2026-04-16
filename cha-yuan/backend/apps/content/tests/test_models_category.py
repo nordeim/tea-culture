@@ -8,9 +8,9 @@ article relationships and counts.
 import pytest
 from datetime import datetime
 
-pytest.importorskip("content.models", reason="Content models not yet implemented")
+pytest.importorskip("apps.content.models", reason="Content models not yet implemented")
 
-from content.models import Article, ArticleCategory
+from apps.content.models import Article, ArticleCategory
 
 
 class TestCategoryArticleCount:

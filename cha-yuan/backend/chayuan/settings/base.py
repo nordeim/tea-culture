@@ -29,7 +29,7 @@ LOCAL_APPS = [
     "apps.core",
     "apps.commerce",
     "apps.content",
-    "apps.api",
+    "apps.api.apps.ApiConfig",  # Use AppConfig for lazy initialization
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -111,6 +111,10 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "core.User"
 GST_RATE = Decimal("0.09")
+
+# Redis settings (used by cart, auth, cache)
+REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+REDIS_PORT = int(os.getenv("REDIS_PORT", "6379"))
 
 LOGGING = {
     "version": 1,

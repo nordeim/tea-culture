@@ -124,22 +124,56 @@ def clear_auth_cookies(response, domain=None):
     )
 
 
-class JWTCookieAuthentication:
-    """Custom authentication class for Django Ninja."""
+class JWTAuth:
+    """
+    JWT Authentication class for Django Ninja.
 
-    @staticmethod
-    def authenticate(request):
-        """Authenticate request using JWT from cookie."""
-        from apps.core.models import User
+    Usage:
+        @router.get("/", auth=JWTAuth(required=False))
+        def my_endpoint(request):
+            ...
+    """
 
+    def __init__(self, required=True):
+        """
+        Initialize JWTAuth.
+
+        Args:
+            required: If True, authentication is mandatory. If False, optional.
+        """
+        self.required = required
+
+    def __call__(self, request):
+        """
+        Authenticate the request.
+
+        Returns:
+            User instance if authenticated, None if not required and no token.
+            Raises AuthenticationError if required and no valid token.
+        """
         token = request.COOKIES.get("access_token")
         if not token:
+            if self.required:
+                from ninja.errors import HttpError
+
+                raise HttpError(401, "Authentication required")
             return None
 
         user_id = JWTTokenManager.validate_access_token(token)
         if user_id:
+            from apps.core.models import User
+
             try:
                 return User.objects.get(id=user_id, is_active=True)
             except User.DoesNotExist:
-                return None
+                pass
+
+        if self.required:
+            from ninja.errors import HttpError
+
+            raise HttpError(401, "Invalid or expired token")
         return None
+
+
+# Backwards compatibility alias
+JWTCookieAuthentication = JWTAuth

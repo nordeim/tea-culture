@@ -11,21 +11,42 @@ from ninja import Router, Schema, Field
 from ninja.errors import HttpError
 from django.http import HttpRequest
 
-from commerce.cart import (
-    get_cart_id,
-    get_cart_items,
-    add_to_cart,
-    update_cart_item,
-    remove_from_cart,
-    clear_cart,
-    calculate_cart_totals,
-    get_cart_item_count,
-    get_cart_summary,
-)
 from apps.core.authentication import JWTAuth
 
 
 router = Router(tags=["cart"])
+
+
+# ============================================================================
+# Lazy imports to avoid circular import issues
+# ============================================================================
+
+
+def get_cart_service():
+    """Lazy import cart service to avoid circular imports."""
+    from apps.commerce.cart import (
+        get_cart_id,
+        get_cart_items,
+        add_to_cart,
+        update_cart_item,
+        remove_from_cart,
+        clear_cart,
+        calculate_cart_totals,
+        get_cart_item_count,
+        get_cart_summary,
+    )
+
+    return {
+        "get_cart_id": get_cart_id,
+        "get_cart_items": get_cart_items,
+        "add_to_cart": add_to_cart,
+        "update_cart_item": update_cart_item,
+        "remove_from_cart": remove_from_cart,
+        "clear_cart": clear_cart,
+        "calculate_cart_totals": calculate_cart_totals,
+        "get_cart_item_count": get_cart_item_count,
+        "get_cart_summary": get_cart_summary,
+    }
 
 
 # ============================================================================

@@ -16,8 +16,8 @@ from django.conf import settings
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
-from commerce.cart import clear_cart
-from commerce.models import Product
+from apps.commerce.cart import clear_cart
+from apps.commerce.models import Product
 
 
 # Stripe configuration

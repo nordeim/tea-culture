@@ -11,8 +11,12 @@ from ninja.errors import HttpError
 from django.http import HttpRequest
 from django.conf import settings
 
-from commerce.cart import get_cart_items, get_cart_summary, get_cart_id_from_request
-from commerce.stripe_sg import (
+from apps.commerce.cart import (
+    get_cart_items,
+    get_cart_summary,
+    get_cart_id,
+)
+from apps.commerce.stripe_sg import (
     create_checkout_session,
     verify_webhook_signature,
     process_webhook_event,
@@ -89,7 +93,7 @@ def create_checkout_session_endpoint(
     Returns checkout URL for customer to complete payment.
     """
     # Get cart
-    cart_id = get_cart_id_from_request(request)
+    cart_id = get_cart_id(request)
     cart_summary = get_cart_summary(cart_id)
 
     if not cart_summary["items"]:
@@ -174,7 +178,7 @@ def get_checkout_summary(request: HttpRequest):
 
     Returns cart items and totals for checkout page.
     """
-    cart_id = get_cart_id_from_request(request)
+    cart_id = get_cart_id(request)
     summary = get_cart_summary(cart_id)
 
     return CheckoutSummarySchema(

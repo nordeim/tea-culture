@@ -13,9 +13,9 @@ from unittest.mock import Mock, patch
 
 # These imports will fail initially (expected - RED phase)
 # After implementing models, these will work (GREEN phase)
-pytest.importorskip("content.models", reason="Article models not yet implemented")
+pytest.importorskip("apps.content.models", reason="Article models not yet implemented")
 
-from content.models import Article, ArticleCategory
+from apps.content.models import Article, ArticleCategory
 
 
 class TestArticleCategory:

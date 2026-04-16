@@ -13,9 +13,9 @@ from decimal import Decimal
 
 # Import will fail initially - that's expected (RED phase)
 # After implementing cart.py, these imports will work (GREEN phase)
-pytest.importorskip("commerce.cart", reason="Cart module not yet implemented")
+pytest.importorskip("apps.commerce.cart", reason="Cart module not yet implemented")
 
-from commerce.cart import (
+from apps.commerce.cart import (
     get_cart_id,
     get_cart_items,
     add_to_cart,
@@ -26,7 +26,7 @@ from commerce.cart import (
     validate_stock,
     calculate_cart_totals,
 )
-from commerce.models import Product
+from apps.commerce.models import Product
 
 
 class TestCartService:

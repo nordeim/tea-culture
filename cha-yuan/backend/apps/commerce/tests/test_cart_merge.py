@@ -8,9 +8,9 @@ This is critical for guest → registered user conversion.
 import pytest
 from unittest.mock import Mock, patch
 
-pytest.importorskip("commerce.cart", reason="Cart module not yet implemented")
+pytest.importorskip("apps.commerce.cart", reason="Cart module not yet implemented")
 
-from commerce.cart import (
+from apps.commerce.cart import (
     add_to_cart,
     get_cart_items,
     merge_anonymous_cart,
