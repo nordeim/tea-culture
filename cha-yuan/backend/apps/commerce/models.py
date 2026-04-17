@@ -179,3 +179,145 @@ class Product(models.Model):
         if self.harvest_season and self.harvest_year:
             return f"{self.get_harvest_season_display()} {self.harvest_year}"
         return self.get_harvest_season_display() if self.harvest_season else ""
+
+
+class Subscription(models.Model):
+    """
+    Tea subscription for monthly curated boxes.
+    Singapore market - SGD billing.
+    """
+
+    STATUS_CHOICES = [
+        ("active", "Active"),
+        ("paused", "Paused"),
+        ("cancelled", "Cancelled"),
+        ("past_due", "Past Due"),
+    ]
+
+    PLAN_CHOICES = [
+        ("monthly", "Monthly"),
+        ("quarterly", "Quarterly"),
+        ("annual", "Annual"),
+    ]
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="subscriptions",
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="active",
+    )
+    plan = models.CharField(
+        max_length=20,
+        choices=PLAN_CHOICES,
+        default="monthly",
+    )
+
+    # Billing
+    price_sgd = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        help_text="Monthly subscription price in SGD",
+    )
+    next_billing_date = models.DateTimeField()
+
+    # Curation override (manual selection by tea master)
+    next_curation_override = models.JSONField(
+        default=dict,
+        blank=True,
+        null=True,
+        help_text="Manual product selection for next shipment. Format: {'product_ids': [1, 2, 3]}",
+    )
+
+    # Stripe
+    stripe_subscription_id = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Stripe subscription ID",
+    )
+    stripe_customer_id = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Stripe customer ID",
+    )
+
+    # Cancellation
+    cancelled_at = models.DateTimeField(null=True, blank=True)
+    cancellation_reason = models.TextField(blank=True)
+
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "subscriptions"
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.user.email} - {self.plan} ({self.status})"
+
+    def is_active(self):
+        """Check if subscription is active."""
+        return self.status == "active"
+
+    def can_curate(self):
+        """Check if subscription is eligible for curation."""
+        return self.status in ["active", "paused"]
+
+
+class SubscriptionShipment(models.Model):
+    """
+    Individual shipment in a subscription.
+    Tracks what products were sent and when.
+    """
+
+    STATUS_CHOICES = [
+        ("preparing", "Preparing"),
+        ("shipped", "Shipped"),
+        ("delivered", "Delivered"),
+        ("returned", "Returned"),
+        ("cancelled", "Cancelled"),
+    ]
+
+    subscription = models.ForeignKey(
+        Subscription,
+        on_delete=models.CASCADE,
+        related_name="shipments",
+    )
+    products = models.ManyToManyField(
+        Product,
+        related_name="shipments",
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="preparing",
+    )
+
+    # Shipping
+    tracking_number = models.CharField(max_length=255, blank=True)
+    shipped_at = models.DateTimeField(null=True, blank=True)
+    delivered_at = models.DateTimeField(null=True, blank=True)
+
+    # Curation metadata
+    curation_type = models.CharField(
+        max_length=20,
+        choices=[("auto", "Auto-curated"), ("manual", "Manual override")],
+        default="auto",
+        help_text="Whether this shipment was auto-curated or manually selected",
+    )
+
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "subscription_shipments"
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"Shipment {self.id} for {self.subscription.user.email}"
