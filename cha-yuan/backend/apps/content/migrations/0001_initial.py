@@ -5,10 +5,9 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ("content", "0001_initial"),
-        ("core", "0001_initial"),
-    ]
+    initial = True
+
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
