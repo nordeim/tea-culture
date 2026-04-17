@@ -151,8 +151,6 @@ export interface SubscriptionError {
 export interface CancelSubscriptionRequest {
   /** Reason for cancellation (optional) */
   reason?: string;
-  /** Feedback (optional) */
-  feedback?: string;
 }
 
 /**
