@@ -18,7 +18,6 @@ import {
   getQuizQuestions,
   submitQuiz,
   getUserPreferences,
-  hasCompletedQuiz,
 } from "@/lib/api/quiz";
 import { QuizQuestion, QuizAnswers, QuizResult, UserPreference } from "@/lib/types/quiz";
 
