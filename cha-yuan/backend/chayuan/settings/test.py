@@ -1,14 +1,19 @@
 """
 Test settings for CHA YUAN.
+Uses PostgreSQL test database for consistency with production.
 """
 
 from .base import *
 
-# Use SQLite for faster tests
+# Use PostgreSQL test database (separate from production)
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "test_db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "chayuan_test_db",
+        "USER": os.getenv("POSTGRES_USER", "chayuan_user"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "chayuan_dev_password"),
+        "HOST": os.getenv("POSTGRES_HOST", "localhost"),
+        "PORT": os.getenv("POSTGRES_PORT", "5432"),
     }
 }
 
