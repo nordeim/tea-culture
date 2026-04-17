@@ -1264,3 +1264,82 @@ Next Steps Options:
 - B: Task 7.3.1 (Quiz Frontend API Integration)
 - C: Task 7.4.1 (Subscription Dashboard)
 
+---
+
+Based on my analysis:
+1. PHASE_7_SUBPLAN.md Section 7.2.3 covers "Django Admin Override UI" (lines 427-522)
+2. MASTER_EXECUTION_PLAN.md Section 7.2 mentions "Curation Override UI" (lines 909-927)
+Key requirements from these documents:
+- CurationOverrideForm with ModelMultipleChoiceField
+- SubscriptionAdmin using the form
+- list_display showing user, plan, status, next_billing_date, curation_override_active
+- curation_override_active boolean indicator
+- save_model override to process selected products
+- next_curation_override JSONField
+- SubscriptionShipment model
+I've already implemented:
+- ✅ Subscription model with next_curation_override
+- ✅ SubscriptionShipment model
+- ✅ Curation engine (curation.py)
+What's missing:
+- ❌ Django Admin Curation Override UI (commerce/admin.py)
+- ❌ Tests for the admin interface
+Let me create a sub-plan with
+Excellent! I've validated the requirements from both documents. Let me now create a meticulously planned sub-plan for Task 7.2.4: Django Admin Curation Override UI.
+Sub-Plan Validation Summary
+Alignment Check with @PHASE_7_SUBPLAN.md ✅
+Requirement	Subplan Coverage	Status
+CurationOverrideForm with product selection	Form with ModelMultipleChoiceField	✅ Aligned
+SubscriptionAdmin with override indicator	curation_override_active boolean	✅ Aligned
+save_model override processing	JSON serialization of selected products	✅ Aligned
+Filter eligible products	is_subscription_eligible=True, stock__gt=0	✅ Aligned
+Alignment Check with @MASTER_EXECUTION_PLAN.md ✅
+Requirement	Coverage	Status
+Manual override from Django Admin	CurationOverrideForm	✅ Aligned
+Auto-curation fallback	next_curation_override cleared after use	✅ Aligned
+Tea master interface	Form with checkbox selection	✅
+
+ I've created the comprehensive sub-plan. Now let me proceed with meticulous execution of Task 7.2.4: Django Admin Curation Override UI. I'll start with the TDD RED Phase: Write admin tests first. The sub-plan is validated against:1. PHASE_7_SUBPLAN.md - Section 7.2.3 aligns perfectly with manual override requirements2. MASTER_EXECUTION_PLAN.md - Phase 7.2 Admin UI specification validated
+Let me now execute:### Step 1: Create Admin Tests (RED Phase)Write failing tests that define the expected admin behavior. These tests will fail initially because the admin form and configuration don't exist yet. This is RED phase of TDD.
+Validated! The sub-plan is perfectly aligned with both documents. Let me now EXECUTE TASK 7.2.4
+
+# Run all admin curation tests
+$ cd /home/project/tea-culture/cha-yuan && PYTHONPATH=/home/project/tea-culture/cha-yuan/backend:$PYTHONPATH DJANGO_SETTINGS_MODULE=chayuan.settings.test python -m pytest backend/apps/commerce/tests/test_admin_curation.py -v --tb=short 2>&1 | tail -60
+backend/apps/commerce/tests/test_admin_curation.py::TestSubscriptionAdmin::test_admin_uses_curation_override_form PASSED [ 36%]
+backend/apps/commerce/tests/test_admin_curation.py::TestSubscriptionAdmin::test_admin_list_display_includes_override_indicator PASSED [ 42%]
+backend/apps/commerce/tests/test_admin_curation.py::TestSubscriptionAdmin::test_admin_search_fields_include_user_email PASSED [ 47%]
+backend/apps/commerce/tests/test_admin_curation.py::TestSubscriptionAdmin::test_curation_override_active_returns_html_for_empty PASSED [ 52%]
+backend/apps/commerce/tests/test_admin_curation.py::TestSubscriptionAdmin::test_curation_override_active_returns_html_for_active PASSED [ 57%]
+backend/apps/commerce/tests/test_admin_curation.py::TestSubscriptionAdmin::test_curation_override_active_is_boolean_field PASSED [ 63%]
+backend/apps/commerce/tests/test_admin_curation.py::TestCurationOverrideIntegration::test_override_saves_json_structure PASSED [ 68%]
+backend/apps/commerce/tests/test_admin_curation.py::TestCurationOverrideIntegration::test_curation_uses_override_products PASSED [ 73%]
+backend/apps/commerce/tests/test_admin_curation.py::TestCurationOverrideIntegration::test_empty_override_clears_existing PASSED [ 78%]
+backend/apps/commerce/tests/test_admin_curation.py::TestCurationOverrideIntegration::test_override_limit_enforced PASSED [ 84%]
+…
+Click to expand
+Thinking: Task 7.2.4 COMPLETE! ✅ 19/19 tests passing!
+Summary
+What Was Implemented:
+1. CurationOverrideForm - Multi-select form for choosing 3-5 products
+2. SubscriptionAdmin - Django Admin with manual curation override UI
+3. Visual Override Indicator - Boolean display showing Active/Auto status
+4. Form Validation - Max 5 products validation
+5. JSON Storage - Stores override with metadata (selected_by, selected_at)
+6. Integration - Saves to next_curation_override field
+Files Created/Modified:
+1. /backend/apps/commerce/admin.py - New file with full admin configuration
+2. /backend/apps/commerce/tests/test_admin_curation.py - 19 tests covering all features
+Key Features:
+- ✅ Only shows eligible, in-stock products
+- ✅ Max 5 product validation
+- ✅ Visual indicator in list view (● Active / ○ Auto)
+- ✅ JSON storage with audit trail
+- ✅ Clears on empty selection
+- ✅ Full integration with curation engine
+Tests:
+- 19 tests, all passing
+- Form rendering tests
+- Validation tests  
+- Admin display tests
+- Integration tests
+
