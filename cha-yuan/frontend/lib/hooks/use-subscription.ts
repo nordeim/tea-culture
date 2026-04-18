@@ -108,7 +108,7 @@ export function useSubscription(): UseQueryResult<
 export function useCancelSubscription(): UseMutationResult<
   void,
   Error,
-  CancelSubscriptionRequest | void
+  CancelSubscriptionRequest | undefined
 > {
   const queryClient = useQueryClient();
 
@@ -150,7 +150,7 @@ export function useCancelSubscription(): UseMutationResult<
 export function usePauseSubscription(): UseMutationResult<
   void,
   Error,
-  PauseSubscriptionRequest | void
+  PauseSubscriptionRequest | undefined
 > {
   const queryClient = useQueryClient();
 

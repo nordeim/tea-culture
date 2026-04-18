@@ -34,5 +34,8 @@ EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 DEBUG = True
 SECRET_KEY = "test-secret-key"
 
+# Allow testserver for Django test client
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]", "testserver"]
+
 # Disable logging during tests
 LOGGING = {}

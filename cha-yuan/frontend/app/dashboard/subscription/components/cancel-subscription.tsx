@@ -11,13 +11,6 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { useReducedMotion } from "@/lib/hooks/use-reduced-motion";
 import { staggerItemVariants } from "@/lib/animations";
 
@@ -83,7 +76,7 @@ export function CancelSubscription({
           </div>
         </div>
         <p className="text-sm text-red-700">
-          We're sorry to see you go. You can reactivate your subscription anytime
+          We are sorry to see you go. You can reactivate your subscription anytime
           by starting a new one.
         </p>
       </motion.div>
@@ -217,182 +210,202 @@ export function CancelSubscription({
       </motion.div>
 
       {/* Cancel Confirmation Dialog */}
-      <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-bark-900">
-              <AlertTriangle className="w-5 h-5 text-red-600" />
-              Cancel Subscription?
-            </DialogTitle>
-            <DialogDescription className="text-bark-600">
-              We're sorry to see you go. Please confirm you'd like to cancel.
-            </DialogDescription>
-          </DialogHeader>
+      <AnimatePresence>
+        {showDialog && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+            onClick={() => !isSubmitting && setShowDialog(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {showSuccess ? (
+                <div className="py-8 text-center">
+                  <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle className="w-8 h-8 text-green-600" />
+                  </div>
+                  <h3 className="text-lg font-medium text-bark-900 mb-2">
+                    Subscription Cancelled
+                  </h3>
+                  <p className="text-sm text-bark-600">
+                    You will receive confirmation via email.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div className="flex items-center gap-2 mb-4">
+                    <AlertTriangle className="w-5 h-5 text-red-600" />
+                    <h2 className="text-lg font-display text-bark-900">
+                      Cancel Subscription?
+                    </h2>
+                  </div>
+                  
+                  <p className="text-sm text-bark-600 mb-4">
+                    We are sorry to see you go. Please confirm you would like to cancel.
+                  </p>
 
-          <AnimatePresence mode="wait">
-            {showSuccess ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                className="py-8 text-center"
-              >
-                <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="w-8 h-8 text-green-600" />
-                </div>
-                <h3 className="text-lg font-medium text-bark-900 mb-2">
-                  Subscription Cancelled
-                </h3>
-                <p className="text-sm text-bark-600">
-                  You'll receive confirmation via email.
-                </p>
-              </motion.div>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="space-y-4"
-              >
-                {/* Consequences */}
-                <div className="bg-ivory-50 rounded-lg p-4">
-                  <h4 className="text-sm font-medium text-bark-900 mb-2">
-                    What happens next:
-                  </h4>
-                  <ul className="text-sm text-bark-600 space-y-1.5">
-                    <li className="flex items-start gap-2">
-                      <span className="text-red-500">•</span>
-                      <span>You'll receive any pending boxes until end of current period</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-red-500">•</span>
-                      <span>Your preferences will be saved for 6 months</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-red-500">•</span>
-                      <span>No future charges after cancellation</span>
-                    </li>
-                  </ul>
-                </div>
+                  {/* Consequences */}
+                  <div className="bg-ivory-50 rounded-lg p-4 mb-4">
+                    <h4 className="text-sm font-medium text-bark-900 mb-2">
+                      What happens next:
+                    </h4>
+                    <ul className="text-sm text-bark-600 space-y-1.5">
+                      <li className="flex items-start gap-2">
+                        <span className="text-red-500">•</span>
+                        <span>You will receive any pending boxes until end of current period</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-red-500">•</span>
+                        <span>Your preferences will be saved for 6 months</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-red-500">•</span>
+                        <span>No future charges after cancellation</span>
+                      </li>
+                    </ul>
+                  </div>
 
-                {/* Optional Reason */}
-                <div>
-                  <label
-                    htmlFor="reason"
-                    className="block text-sm font-medium text-bark-700 mb-2"
-                  >
-                    Why are you leaving? (optional)
-                  </label>
-                  <textarea
-                    id="reason"
-                    value={reason}
-                    onChange={(e) => setReason(e.target.value)}
-                    placeholder="Too expensive, moving, etc."
-                    className="w-full rounded-lg border border-ivory-300 bg-white px-3 py-2 text-sm text-bark-900 placeholder:text-bark-400 focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-transparent resize-none"
-                    rows={3}
-                    disabled={isSubmitting}
-                  />
-                </div>
+                  {/* Optional Reason */}
+                  <div className="mb-4">
+                    <label
+                      htmlFor="reason"
+                      className="block text-sm font-medium text-bark-700 mb-2"
+                    >
+                      Why are you leaving? (optional)
+                    </label>
+                    <textarea
+                      id="reason"
+                      value={reason}
+                      onChange={(e) => setReason(e.target.value)}
+                      placeholder="Too expensive, moving, etc."
+                      className="w-full rounded-lg border border-ivory-300 bg-white px-3 py-2 text-sm text-bark-900 placeholder:text-bark-400 focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-transparent resize-none"
+                      rows={3}
+                      disabled={isSubmitting}
+                    />
+                  </div>
 
-                {/* Actions */}
-                <div className="flex gap-3">
-                  <Button
-                    variant="outline"
-                    onClick={() => setShowDialog(false)}
-                    className="flex-1"
-                    disabled={isSubmitting}
-                  >
-                    <ArrowLeft className="w-4 h-4 mr-2" />
-                    Keep Subscription
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    onClick={handleCancel}
-                    disabled={isSubmitting}
-                    className="flex-1"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Cancelling...
-                      </>
-                    ) : (
-                      "Confirm Cancel"
-                    )}
-                  </Button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </DialogContent>
-      </Dialog>
+                  {/* Actions */}
+                  <div className="flex gap-3">
+                    <Button
+                      variant="outline"
+                      onClick={() => setShowDialog(false)}
+                      className="flex-1"
+                      disabled={isSubmitting}
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      Keep Subscription
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      onClick={handleCancel}
+                      disabled={isSubmitting}
+                      className="flex-1"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Cancelling...
+                        </>
+                      ) : (
+                        "Confirm Cancel"
+                      )}
+                    </Button>
+                  </div>
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Pause Dialog */}
-      <Dialog open={showPauseDialog} onOpenChange={setShowPauseDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-bark-900">
-              <Pause className="w-5 h-5 text-gold-600" />
-              Pause Subscription
-            </DialogTitle>
-            <DialogDescription className="text-bark-600">
-              Take a break while keeping your preferences saved.
-            </DialogDescription>
-          </DialogHeader>
+      <AnimatePresence>
+        {showPauseDialog && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+            onClick={() => !isSubmitting && setShowPauseDialog(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <Pause className="w-5 h-5 text-gold-600" />
+                <h2 className="text-lg font-display text-bark-900">
+                  Pause Subscription
+                </h2>
+              </div>
 
-          <div className="space-y-4">
-            <div className="bg-gold-50 rounded-lg p-4">
-              <h4 className="text-sm font-medium text-gold-900 mb-2">
-                While paused:
-              </h4>
-              <ul className="text-sm text-gold-800 space-y-1.5">
-                <li className="flex items-start gap-2">
-                  <span className="text-gold-600">•</span>
-                  <span>No new boxes will be shipped</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gold-600">•</span>
-                  <span>No charges during pause period</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gold-600">•</span>
-                  <span>Your preferences are preserved</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gold-600">•</span>
-                  <span>Resume anytime from this dashboard</span>
-                </li>
-              </ul>
-            </div>
+              <p className="text-sm text-bark-600 mb-4">
+                Take a break while keeping your preferences saved.
+              </p>
 
-            <div className="flex gap-3">
-              <Button
-                variant="outline"
-                onClick={() => setShowPauseDialog(false)}
-                className="flex-1"
-                disabled={isSubmitting}
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Go Back
-              </Button>
-              <Button
-                onClick={handlePause}
-                disabled={isSubmitting}
-                className="flex-1 bg-gold-500 hover:bg-gold-600 text-white"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Pausing...
-                  </>
-                ) : (
-                  "Pause for Now"
-                )}
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+              <div className="bg-gold-50 rounded-lg p-4 mb-4">
+                <h4 className="text-sm font-medium text-gold-900 mb-2">
+                  While paused:
+                </h4>
+                <ul className="text-sm text-gold-800 space-y-1.5">
+                  <li className="flex items-start gap-2">
+                    <span className="text-gold-600">•</span>
+                    <span>No new boxes will be shipped</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-gold-600">•</span>
+                    <span>No charges during pause period</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-gold-600">•</span>
+                    <span>Your preferences are preserved</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-gold-600">•</span>
+                    <span>Resume anytime from this dashboard</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowPauseDialog(false)}
+                  className="flex-1"
+                  disabled={isSubmitting}
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Go Back
+                </Button>
+                <Button
+                  onClick={handlePause}
+                  disabled={isSubmitting}
+                  className="flex-1 bg-gold-500 hover:bg-gold-600 text-white"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Pausing...
+                    </>
+                  ) : (
+                    "Pause for Now"
+                  )}
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

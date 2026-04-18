@@ -226,12 +226,12 @@ describe("ArticleContent", () => {
   });
 
   it("handles empty content gracefully", () => {
-    const { container } = render(<ArticleContent content="" />);
-    expect(container.firstChild).toBeInTheDocument();
+    render(<ArticleContent content="" />);
+    expect(document.querySelector(".article-content")).toBeInTheDocument();
   });
 
   it("handles content with special characters", () => {
-    const { container } = render(
+    render(
       <ArticleContent content="# Special: chars & symbols < >" />
     );
     expect(screen.getByText(/Special: chars & symbols/)).toBeInTheDocument();

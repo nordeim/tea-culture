@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display, Noto_Serif_SC } from "next/font/google";
 import "./globals.css";
+import { Providers } from "@/components/providers";
 
 /* ============================================
    FONT CONFIGURATION - Optimized via Next.js
@@ -164,11 +165,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
           Skip to main content
         </a>
 
-        {/* Main content wrapper */}
-        <div id="main-content" className="flex min-h-screen flex-col">
+      {/* Main content wrapper with Providers */}
+      <div id="main-content" className="flex min-h-screen flex-col">
+        <Providers>
           {children}
-        </div>
-      </body>
-    </html>
+        </Providers>
+      </div>
+    </body>
+  </html>
   );
 }

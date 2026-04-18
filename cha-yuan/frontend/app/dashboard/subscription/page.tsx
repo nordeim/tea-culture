@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowLeft, Package } from "lucide-react";
 import Link from "next/link";
@@ -44,7 +43,6 @@ import {
  * - GST 9% included notation
  */
 export default function SubscriptionPage() {
-  const router = useRouter();
   const prefersReducedMotion = useReducedMotion();
 
   // Data fetching
@@ -173,7 +171,7 @@ export default function SubscriptionPage() {
 
   // Handlers
   const handleCancel = async (reason?: string) => {
-    await cancelMutation.mutateAsync({ reason });
+    await cancelMutation.mutateAsync(reason ? { reason } : undefined);
   };
 
   const handlePause = async () => {

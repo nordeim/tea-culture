@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   description: "Explore the art of tea through brewing guides, tasting notes, and historical insights from tea masters.",
 };
 
+// Mark as dynamic since we use cookies for auth
+export const dynamic = "force-dynamic";
+
 interface Category {
   id: number;
   name: string;

@@ -1,6 +1,8 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import type { Subscription, NextBoxPreview as NextBoxPreviewType } from "@/lib/types/subscription";
+import type { UserPreference } from "@/lib/types/quiz";
 import {
   SubscriptionStatus,
   NextBilling,
@@ -8,14 +10,8 @@ import {
   PreferenceSummary,
   CancelSubscription,
 } from "../";
-import type { Subscription, NextBoxPreview as NextBoxPreviewType, UserPreference } from "@/lib/types/subscription";
 
-// Mock hooks
-vi.mock("@/lib/hooks/use-reduced-motion", () => ({
-  useReducedMotion: () => false,
-}));
-
-// Create wrapper with QueryClient
+// Create wrapper with QueryClient for integration tests
 const createWrapper = () => {
   const queryClient = new QueryClient({
     defaultOptions: {

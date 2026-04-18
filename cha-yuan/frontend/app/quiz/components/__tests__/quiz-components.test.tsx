@@ -1,11 +1,9 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { QuizIntro } from "../quiz-intro";
 import { QuizQuestion } from "../quiz-question";
 import { QuizProgress } from "../quiz-progress";
 import { QuizResults } from "../quiz-results";
-import { QuizGuard } from "../quiz-guard";
 import { QuizLayout } from "../quiz-layout";
 
 // Mock hooks
@@ -31,18 +29,6 @@ vi.mock("@/lib/hooks/use-quiz", () => ({
     error: null,
   }),
 }));
-
-// Create wrapper with QueryClient
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: { retry: false },
-    },
-  });
-  return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-};
 
 describe("QuizIntro", () => {
   const mockStart = vi.fn();
