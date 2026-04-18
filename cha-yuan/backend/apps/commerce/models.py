@@ -156,6 +156,11 @@ class Product(models.Model):
         total = self.price_sgd * (Decimal("1") + gst_rate)
         return total.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 
+    @property
+    def price_with_gst(self):
+        """Property accessor for API serialization."""
+        return self.get_price_with_gst()
+
     def get_gst_amount(self):
         """Calculate GST amount."""
         if self.gst_inclusive:
@@ -166,13 +171,28 @@ class Product(models.Model):
             gst = self.price_sgd * Decimal("0.09")
         return gst.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 
+    @property
+    def gst_amount(self):
+        """Property accessor for API serialization."""
+        return self.get_gst_amount()
+
     def is_in_stock(self):
         """Check if product is in stock."""
         return self.stock > 0 and self.is_available
 
+    @property
+    def in_stock(self):
+        """Property accessor for API serialization."""
+        return self.is_in_stock()
+
     def get_weight_display(self):
         """Return weight with unit."""
         return f"{self.weight_grams}g"
+
+    @property
+    def weight_display(self):
+        """Property accessor for API serialization."""
+        return self.get_weight_display()
 
     def get_season_display_with_year(self):
         """Return season and year if available."""
