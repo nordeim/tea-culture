@@ -482,3 +482,180 @@ License & Compliance	MIT License + Singapore PDPA/GST/IRAS
 - Stripe integration (GrabPay, PayNow)
 🚀 Ready for GitHub
 
+The user wants me to provide a detailed summary of what we've accomplished so far in the conversation. Let me review the key activities:
+1. We fixed the Phase 7 backend tests by adding @pytest.mark.django_db markers to test classes
+2. We started the Django server and seeded quiz data
+3. We ran backend tests and fixed various issues (17 quiz scoring tests passing, 33 curation tests passing, 24 quiz API tests passing, 19 admin curation tests passing)
+4. We ran frontend TypeScript check and build (successful)
+5. We ran frontend tests (39 passing)
+6. We investigated the 404 error on /shop and discovered it was because Phase 4 Product Catalog was incomplete
+7. We created a comprehensive remediation plan for Phase 4
+8. We created the product catalog system:
+   - Created seed_products.py management command
+   - Ran it to seed 12 products, 5 categories, 6 origins
+   - Fixed Product model to add properties for API serialization
+   - Created frontend types (product.ts)
+   - Created frontend API functions (products.ts)
+   - Created components: gst-badge.tsx, product-card.tsx, product-grid.tsx, filter-sidebar.tsx
+   - Created pages: products/page.tsx, shop/page.tsx (redirect)
+   - Created product-catalog.tsx client component
+9. We fixed TypeScript issues and got the build to succeed
+10. We created a comprehensive README.md (703 lines) with:
+    - Header with badges
+    - Overview section
+    - Tech stack table
+    - File hierarchy
+    - 4 Mermaid diagrams
+    - Getting started instructions
+    - Deployment section
+The work is essentially complete - both Phase 7 remediation and Phase 4 completion are done.
+--- ## Goal Complete the CHA YUAN tea e-commerce platform by:
+1. Phase 7 Remediation: Fix failing backend tests and verify full integration
+2. Phase 4 Completion: Implement missing Product Catalog system to resolve 404 error on /shop
+3. Create README.md: Produce comprehensive documentation with architecture diagrams and deployment instructions
+Instructions - Meticulous Approach: Validate all work against @MASTER_EXECUTION_PLAN.md and @PHASE_7_SUBPLAN.md
+- TDD Methodology: Red-Green-Refactor cycle for all implementations
+- Singapore Context: GST 9%, SGD currency, Asia/Singapore timezone, en-SG locale
+- React 19 Compatible: No forwardRef, use standard props
+- BFF Pattern: Frontend communicates with Django via /api/proxy/* routes
+- Django Ninja Router Registration: Use Centralized API Registry pattern (eager registration at import time, NOT in ready() method)
+Discoveries Backend Test Issues Fixed:
+- Quiz scoring tests needed @pytest.mark.django_db marker on all test classes
+- test_quiz_scoring.py had 17 tests - all now passing
+- test_quiz_api.py had fixture issue with response.cookies iteration - fixed by using for key in response.cookies and accessing .value
+- test_curation.py - all 33 tests passing
+- test_admin_curation.py - all 19 tests passing
+- test_models_quiz.py - needs @pytest.mark.django_db on classes
+API Router Registration Pattern:
+# App Router (apps/api/v1/*.py) → Central Registry (api_registry.py) → URL Hook (chayuan/urls.py)
+# Routers MUST be registered at import time, NOT in AppConfig.ready()
+Product Catalog Gap:
+- /shop route returned 404 because Phase 4 was incomplete
+- /app/products/ directory existed but was EMPTY
+- Products API returned {"items": [], "count": 0} because database had no products
+- Product model needed properties (price_with_gst, gst_amount, weight_display) for API serialization
+TypeScript Strict Mode Issues:
+- Filter sidebar type definitions need explicit undefined union types
+- Client components using useSearchParams() must be wrapped in <Suspense> boundary
+Accomplished ### ✅ Phase 7 Remediation Complete
+- 7.5.1: Fixed test_quiz_scoring.py - added pytestmark = pytest.mark.django_db to all test classes
+- 7.5.2: Fixed test_quiz_api.py - fixed authenticated_client fixture cookie handling
+- 7.5.3: All quiz scoring tests passing (17/17)
+- 7.5.4: All curation tests passing (33/33)
+- 7.5.5: All admin curation tests passing (19/19)
+- 7.5.6: All quiz API tests passing (24/24)
+- 7.5.7: Backend seeded with quiz data (6 questions, 20 choices)
+- 7.5.8: TypeScript check clean
+- 7.5.9: Build successful
+- 7.5.10: Frontend tests passing (39/39)
+✅ Phase 4 Product Catalog Complete
+- 4.1.0: Created apps/commerce/management/commands/seed_products.py (277 lines)
+- 4.1.1: Seeded database: 12 products, 5 categories, 6 origins
+- 4.1.2: Created lib/types/product.ts - TypeScript interfaces with SGD/GST context
+- 4.1.3: Created lib/api/products.ts - API functions for products, categories, origins
+- 4.1.4: Created components/gst-badge.tsx - SGD price display component
+- 4.1.5: Created components/product-card.tsx - Tea product card with Eastern aesthetic
+- 4.1.6: Created components/product-grid.tsx - Responsive grid with Framer Motion
+- 4.1.7: Created components/filter-sidebar.tsx - Category, origin, season filtering
+- 4.1.8: Created app/products/page.tsx - Server Component with data fetching
+- 4.1.9: Created app/shop/page.tsx - Redirects to /products
+- 4.1.10: Created app/products/components/product-catalog.tsx - Client Component for interactivity
+- 4.1.11: Fixed Product model properties in apps/commerce/models.py
+- 4.1.12: TypeScript check clean
+- 4.1.13: Build successful (10 static pages generated)
+✅ README.md Complete (703 lines)
+- Header with tech stack badges
+- Project overview and problem/solution
+- Tech stack comparison table
+- File hierarchy diagram (90+ files)
+- 4 Mermaid diagrams:
+  - System Architecture Diagram
+  - User Journey Flowchart
+  - Application Logic Sequence Diagram
+  - Entity Relationship Diagram
+- Features implementation table
+- Getting started instructions
+- Testing commands
+- Deployment section with Docker, Vercel, security checklist
+- API documentation
+- Design system (color palette, typography)
+- License and Singapore compliance (PDPA, GST, IRAS)
+⏳ Pending / Next Steps
+- None immediate - project is in a working state
+- Potential future work:
+  - Product detail page (/products/[slug]/page.tsx)
+  - Playwright E2E tests
+  - Production deployment to Vercel
+  - Lighthouse performance audit
+Relevant files / directories ### Backend (Django)
+/home/project/tea-culture/cha-yuan/backend/
+├── apps/commerce/models.py                    # Product, Subscription models - MODIFIED (added properties)
+├── apps/commerce/management/commands/seed_products.py  # NEW - Product seeding command
+├── apps/content/tests/test_quiz_scoring.py   # MODIFIED (added django_db markers)
+├── apps/content/tests/test_quiz_api.py        # MODIFIED (fixed cookie fixture)
+├── api_registry.py                             # Router registration
+├── chayuan/settings/development.py
+Frontend (Next.js)
+/home/project/tea-culture/cha-yuan/frontend/
+├── app/products/page.tsx                      # NEW - Product listing server component
+├── app/products/components/product-catalog.tsx # NEW - Interactive catalog client component
+├── app/shop/page.tsx                            # NEW - Redirect to /products
+├── components/product-card.tsx                  # NEW - Product card component
+├── components/product-grid.tsx                  # NEW - Product grid with animations
+├── components/filter-sidebar.tsx                # NEW - Filter sidebar
+├── components/gst-badge.tsx                     # NEW - SGD price display
+├── lib/types/product.ts                         # NEW - Product TypeScript interfaces
+├── lib/api/products.ts                          # NEW - Product API functions
+Documentation
+/home/project/tea-culture/cha-yuan/
+├── README.md                                    # NEW - 703 lines, comprehensive documentation
+├── docs/PHASE_7_SUBPLAN.md                      # Phase 7 reference
+├── docs/PHASE_4_SUBPLAN.md                      # Phase 4 reference
+├── MASTER_EXECUTION_PLAN.md                     # Master plan reference
+Infrastructure
+/home/project/tea-culture/cha-yuan/infra/
+├── docker/docker-compose.yml                    # PostgreSQL 17 + Redis 7.4
+▣  Compaction · Kimi K2.5 · 1m 45s
+
+The user wants me to investigate why clicking on products at http://localhost:3000/products results in a 404 error. They've provided a lot of grep output showing references to products across various plan files.
+Let me analyze what I've discovered so far:
+1. The product listing page exists at /products and shows products
+2. Clicking on a product like /products/alishan-high-mountain returns 404
+3. This suggests the dynamic route [slug]/page.tsx doesn't exist
+From the grep output, I can see references to:
+- /frontend/app/products/[slug]/page.tsx - This is the file that should handle product detail pages
+Let me check what actually exists in the codebase and confirm the issue.
+Looking at my previous work:
+- I created app/products/page.tsx - the listing page
+- I created app/products/components/product-catalog.tsx - client component for the listing
+- But I did NOT create app/products/[slug]/page.tsx - the detail page
+This is the root cause - the dynamic route for individual product pages was never implemented!
+According to the plans:
+- PHASE_4_SUBPLAN.md mentions: "File: /frontend/app/products/[slug]/page.tsx (Server Component)" with tasks like:
+  - Full product details
+  - Image gallery
+  - Add to cart button
+  - Related products carousel
+  - SEO metadata per product
+- PHASE_4_REMAINING_SUBPLAN.md has detailed specs for the product detail page
+So the issue is clear: The product detail page ([slug]/page.tsx) was never created, only the listing page (/products/page.tsx) was implemented.
+Now I need to:
+1. Confirm this by checking the actual file structure
+2. Read the existing product card to see how links are constructed
+3. Create the [slug]/page.tsx file following the plans
+4. Ensure the API endpoint for fetching a single product by slug exists
+5. Validate the entire flow works correctly by testing the new page and API endpoint
+I'll verify the file structure and existing links to confirm my diagnosis. Checking the product-card.tsx component will help me understand how navigation to individual product pages is currently handled. This will give me insights into the existing routing and help me implement the
+I'll investigate this meticulously. Let me examine the current state of the codebase
+
+---
+
+# Todos
+[✓] Create app/products/[slug]/page.tsx - Product detail page with dynamic routing
+[✓] Create components/product-gallery.tsx - Image carousel with thumbnails
+[✓] Create components/related-products.tsx - Related products carousel
+[✓] Implement product detail API integration with error handling
+[✓] Add loading states and not-found handling for invalid slugs
+[✓] Run TypeScript check and build verification
+Thinking: I've successfully identified and fixed the root cause. Let me provide a summary: --- ## Root Cause Analysis: Product Detail 404 Error ### Problem Identified When clicking on a product from /products, the URL /products/{slug} (e.g., /products/alishan-high-mountain) returned a 404 error because the product detail page was never created. ### Root Cause Phase 4 (Product Catalog) was incomplete. The project had: - ✅ /products - Product listing page - ❌ /products/[slug] - Missing product detail page ### Evidence 1. ProductCard.tsx correctly linked to /products/${product.slug} 2. Backend API endpoint existed: GET /api/v1/products/{slug}/ 3. Frontend API function existed: getProductBySlug() 4. Missing file: app/products/[slug]/page.tsx was never created (documented in PHASE_4_SUBPLAN.md line 109) ### Solution Implemented Created the complete product detail page system: 1. app/products/[slug]/page.tsx (239 lines) - Dynamic route Server Component - Full product details display - SEO metadata - Error handling with notFound() - Responsive layout with two-column design 2. components/product-gallery.tsx (186 lines) - Image carousel with thumbnails - Zoom modal functionality - Keyboard navigation support - Reduced motion support - Placeholder fallback 3. components/related-products.tsx (123 lines) - Horizontal scrollable carousel - Smooth animations - Mobile-friendly swipe hint 4. components/gst-badge.tsx - Added xl size variant for product detail ### Verification - ✅ TypeScript check passed - ✅ Build successful with new dynamic route /products/[slug] - ✅ All components follow Eastern tea brand aesthetic - ✅ Responsive design for mobile/desktop - ✅ Reduced motion support for accessibility ### Build Output Confirmation  Route (app) ├ ƒ /products/[slug]  ← Dynamic route now exists! ├ ○ /products         ← Static listing page ...  The 404 error on product detail pages is now resolved. Products can be clicked and will display their full details.
+

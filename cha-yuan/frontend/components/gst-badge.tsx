@@ -6,7 +6,7 @@ interface GstBadgeProps {
   price: string | number;
   gstAmount: string | number;
   showGstLabel?: boolean;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
 }
 
 /**
@@ -31,6 +31,10 @@ export function GstBadge({
     },
     lg: {
       price: "text-2xl font-semibold",
+      label: "text-sm",
+    },
+    xl: {
+      price: "text-3xl md:text-4xl font-semibold",
       label: "text-sm",
     },
   };
