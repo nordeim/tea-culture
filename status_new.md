@@ -762,3 +762,39 @@ The product detail page will now work correctly. The key fixes were:
 4. Frontend Page (app/products/page.tsx): Use proper type imports and Next.js 15 async params pattern
 You should now be able to access product detail pages like http://localhost:3000/products/alishan-high-mountain successfully.
 
+Summary: CLAUDE.md Created
+File: /home/project/tea-culture/cha-yuan/CLAUDE.md  
+Length: 485 lines  
+Status: ✅ Complete and ready for use
+Key Sections Included:
+1. Core Identity & Purpose - Project overview and problem/solution
+2. Architecture Overview - Tech stack with versions and diagram
+3. Project Structure - Complete file hierarchy
+4. Development Workflow - Setup commands and build commands
+5. Testing Strategy - Backend (pytest) and frontend (Vitest/Playwright)
+6. Implementation Standards:
+   - Django Ninja API router registration (CRITICAL pattern)
+   - Next.js 15+ async params handling
+   - Tailwind CSS v4 CSS-first configuration
+   - BFF pattern explanation
+   - Singapore-specific requirements (GST, PDPA)
+7. Security & Compliance - Authentication and Singapore regulations
+8. Common Issues & Solutions - Including the exact fixes we just implemented:
+   - API 404 from duplicate router paths
+   - Product detail page 404 from async params
+   - Build failures from missing error handling
+9. Phase Status - Phases 0-7 complete, Phase 8 in progress
+10. Key API Endpoints - Public and authenticated endpoints
+11. Success Criteria - Definition of done
+12. Anti-Patterns - What NOT to do
+13. Next Steps - Phase 8 tasks
+Critical Information Captured:
+- ✅ Router Registration Pattern: Centralized in api_registry.py, relative paths in endpoints
+- ✅ Next.js 15 Async Params: Promise<> pattern with await
+- ✅ Singapore Context: GST 9%, SGD, PDPA compliance
+- ✅ BFF Pattern: /api/proxy/* routes with JWT in HttpOnly cookies
+- ✅ Tailwind v4: CSS-first theming, NO tailwind.config.js
+- ✅ Build Commands: TypeScript, lint, test, build
+- ✅ Project Status: Core functionality complete, Phase 8 (Testing/Deploy) in progress
+This document will be read by Claude Code at the start of every conversation, ensuring any agent or human developer has the same deep understanding of the project.
+
