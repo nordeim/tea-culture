@@ -798,3 +798,97 @@ Critical Information Captured:
 - ✅ Project Status: Core functionality complete, Phase 8 (Testing/Deploy) in progress
 This document will be read by Claude Code at the start of every conversation, ensuring any agent or human developer has the same deep understanding of the project.
 
+I've successfully created a comprehensive Project Architecture Document (1,252 lines) that serves as a single source-of-truth handbook for new developers and AI coding agents.
+Document Sections Created:
+1. Executive Summary - Project overview, architecture decisions, Singapore context
+2. System Architecture Overview - Mermaid diagram showing full stack architecture with BFF pattern
+3. File Hierarchy - Complete directory tree with 90+ files documented
+4. Backend Architecture:
+   - Centralized API Registry pattern (critical for Django Ninja)
+   - Router endpoint patterns (relative paths)
+   - App structure for Core, Commerce, and Content apps
+5. Frontend Architecture:
+   - Server Components vs Client Components
+   - Next.js 15+ async params pattern
+   - Tailwind CSS v4 configuration
+6. Database Schema - Complete ERD with Mermaid diagram showing all models and relationships
+7. API Documentation - All public, authenticated, and webhook endpoints
+8. Application Flowcharts - 5 Mermaid diagrams:
+   - Product Discovery Flow
+   - Shopping Cart Flow (sequence)
+   - Checkout Flow (sequence)
+   - Subscription Curation Flow
+   - Quiz Submission Flow
+9. Infrastructure - Docker services, Redis allocation, environment variables
+10. Singapore-Specific Features - GST, address format, phone format, Stripe integration
+ 
+11. Security Architecture - Authentication flow with Mermaid diagram, security measures
+12. Development Guidelines - Code standards, Git workflow, testing requirements, PR checklist
+13. Appendix - Quick reference for commands and key files
+Key Technical Documentation:
+- ✅ API Router Registration Pattern (relative paths in endpoints)
+- ✅ Next.js 15 Async Params (Promise<> with await)
+- ✅ BFF Pattern flow
+- ✅ Database relationships (all ForeignKeys and ManyToMany)
+- ✅ Complete API endpoint reference (25+ endpoints)
+- ✅ Docker infrastructure
+- ✅ Singapore compliance features (GST 9%, PDPA)
+- ✅ Security architecture (HttpOnly cookies, JWT)
+ 
+The document equips any developer or agent with comprehensive insights into the CHA YUAN platform's architecture, enabling effective and independent work on new features and bug fixes
+I've successfully created the Project Architecture Document - a comprehensive single source-of-truth handbook.
+---
+✅ Project Architecture Document Created
+Location: /home/project/tea-culture/cha-yuan/docs/Project_Architecture_Document.md  
+Size: 1,252 lines | 37 KB
+Document Highlights
+📊 Complete Architecture Diagram
+- System-level Mermaid diagram showing BFF pattern
+- Data flow between frontend, backend, and databases
+📁 Full File Hierarchy
+- 90+ files documented with descriptions
+- Complete project structure from root to components
+🗄️ Database Schema
+- Full ERD with all models and relationships
+- Core, Commerce, and Content models
+- Product, Subscription, Quiz, Article schemas
+🔄 Application Flowcharts (5 Mermaid Diagrams)
+1. Product Discovery Flow - Browse/Quiz paths
+2. Shopping Cart Flow - Redis cart operations
+3. Checkout Flow - Stripe integration
+4. Subscription Curation Flow - AI curation algorithm
+5. Quiz Submission Flow - Preference calculation
+📡 Complete API Documentation
+- 15+ public endpoints
+- 12+ authenticated endpoints
+- Webhook endpoints
+🇸🇬 Singapore-Specific Features
+- GST 9% calculation
+- Address format (Block/Street, Unit, Postal Code)
+- Phone validation (+65 XXXX XXXX)
+- Stripe SG integration (GrabPay, PayNow)
+🔐 Security Architecture
+- JWT + HttpOnly cookie flow diagram
+- CSRF, XSS, rate limiting measures
+- PDPA compliance
+📋 Development Guidelines
+- Code standards (Python/TypeScript)
+- Git workflow
+- PR checklist
+- Testing requirements
+---
+Key Information for New Developers
+Critical Patterns Documented:
+1. API Router Registration: Relative paths in endpoints (/, /{slug}/), registered in api_registry.py
+2. Next.js 15 Async Params: Promise<> pattern with await params
+3. BFF Pattern: Client → Proxy → Django with JWT from cookies
+4. Tailwind v4: CSS-first in globals.css, NO tailwind.config.js
+Quick Access Files:
+Purpose	File
+API Router	backend/api_registry.py
+Product API	backend/apps/api/v1/products.py
+Product Detail	frontend/app/products/[slug]/page.tsx
+API Functions	frontend/lib/api/products.ts
+Types	frontend/lib/types/product.ts
+This document enables any developer or AI agent to understand the codebase deeply and handle new PRs independently.
+
