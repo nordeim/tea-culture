@@ -9,6 +9,7 @@ import { Metadata } from "next";
 import { getProducts, getCategories, getOrigins } from "@/lib/api/products";
 import { ProductCatalog } from "./components/product-catalog";
 import { ProductGridSkeleton } from "@/components/product-grid";
+import type { CategoriesResponse, OriginsResponse } from "@/lib/types/product";
 import { Leaf } from "lucide-react";
 
 // Metadata for SEO
@@ -35,12 +36,12 @@ export const metadata: Metadata = {
 };
 
 interface ProductsPageProps {
-  searchParams: {
+  searchParams: Promise<{
     category?: string;
     origin?: string;
     season?: string;
     page?: string;
-  };
+  }>;
 }
 
 /**
@@ -48,17 +49,30 @@ interface ProductsPageProps {
  * Main catalog with filtering and pagination
  */
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
-  // Fetch data server-side
-  const [productsResponse, categories, origins] = await Promise.all([
-    getProducts({
-      category: searchParams.category,
-      origin: searchParams.origin,
-      season: searchParams.season,
-      page: searchParams.page ? parseInt(searchParams.page) : undefined,
-    }),
-    getCategories(),
-    getOrigins(),
-  ]);
+  // Await searchParams (Next.js 15+)
+  const params = await searchParams;
+
+  // Fetch data server-side with error handling
+  let productsResponse;
+  let categories: CategoriesResponse = [];
+  let origins: OriginsResponse = [];
+
+  try {
+    [productsResponse, categories, origins] = await Promise.all([
+      getProducts({
+        category: params.category,
+        origin: params.origin,
+        season: params.season,
+        page: params.page ? parseInt(params.page) : undefined,
+      }),
+      getCategories().catch(() => []),
+      getOrigins().catch(() => []),
+    ]);
+  } catch (error) {
+    console.error("Failed to fetch products data:", error);
+    // Return empty state if backend is unavailable
+    productsResponse = { items: [], count: 0 };
+  }
 
   const products = productsResponse.items;
 

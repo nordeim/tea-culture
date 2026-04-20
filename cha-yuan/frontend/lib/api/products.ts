@@ -30,7 +30,7 @@ export async function getProducts(
   });
 
   const queryString = params.toString();
-  const url = `${BASE_URL}/products/${queryString ? `?${queryString}` : ""}`;
+  const url = `${BASE_URL}/${queryString ? `?${queryString}` : ""}`;
 
   const response = await authFetch(url, { skipAuth: true });
 
@@ -46,7 +46,7 @@ export async function getProducts(
  * Public endpoint - no auth required.
  */
 export async function getProductBySlug(slug: string): Promise<ProductDetail> {
-  const response = await authFetch(`${BASE_URL}/products/${slug}/`, {
+  const response = await authFetch(`${BASE_URL}/${slug}/`, {
     skipAuth: true,
   });
 
@@ -65,15 +65,19 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail> {
  * Public endpoint - no auth required.
  */
 export async function getCategories(): Promise<CategoriesResponse> {
-  const response = await authFetch(`${BASE_URL}/categories/`, {
-    skipAuth: true,
-  });
+  try {
+    const response = await authFetch(`${BASE_URL}/categories/`, {
+      skipAuth: true,
+    });
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch categories: ${response.statusText}`);
+    if (!response.ok) {
+      return [];
+    }
+
+    return response.json();
+  } catch {
+    return [];
   }
-
-  return response.json();
 }
 
 /**
@@ -81,13 +85,17 @@ export async function getCategories(): Promise<CategoriesResponse> {
  * Public endpoint - no auth required.
  */
 export async function getOrigins(): Promise<OriginsResponse> {
-  const response = await authFetch(`${BASE_URL}/origins/`, { skipAuth: true });
+  try {
+    const response = await authFetch(`${BASE_URL}/origins/`, { skipAuth: true });
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch origins: ${response.statusText}`);
+    if (!response.ok) {
+      return [];
+    }
+
+    return response.json();
+  } catch {
+    return [];
   }
-
-  return response.json();
 }
 
 /**

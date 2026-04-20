@@ -24,16 +24,17 @@ import {
 } from "lucide-react";
 
 interface ProductDetailPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({
   params,
 }: ProductDetailPageProps): Promise<Metadata> {
   try {
-    const product = await getProductBySlug(params.slug);
+    const { slug } = await params;
+    const product = await getProductBySlug(slug);
 
     return {
       title: `${product.name} | CHA YUAN (茶源)`,
@@ -56,7 +57,8 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   let product;
 
   try {
-    product = await getProductBySlug(params.slug);
+    const { slug } = await params;
+    product = await getProductBySlug(slug);
   } catch (error) {
     notFound();
   }

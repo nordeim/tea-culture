@@ -1,0 +1,62 @@
+$ npm run build
+
+> cha-yuan-frontend@1.0.0 build
+> next build
+
+▲ Next.js 16.2.4 (Turbopack)
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 7.9s
+✓ Finished TypeScript in 7.8s    
+✓ Collecting page data using 3 workers in 559ms    
+✓ Generating static pages using 3 workers (10/10) in 518ms
+✓ Finalizing page optimization in 5ms    
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/proxy/[...path]
+├ ○ /checkout
+├ ○ /checkout/cancel
+├ ○ /checkout/success
+├ ƒ /culture
+├ ƒ /culture/[slug]
+├ ○ /dashboard/subscription
+├ ƒ /products
+├ ƒ /products/[slug]
+├ ○ /quiz
+└ ○ /shop
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+(venv) pete@pop-os:/home/project/tea-culture/cha-yuan/frontend
+$ nohup npm run dev > /tmp/nextjs.log 2>&1 &
+[1] 42112
+(venv) pete@pop-os:/home/project/tea-culture/cha-yuan/frontend
+$ tail -f /tmp/nextjs.log
+> cha-yuan-frontend@1.0.0 dev
+> next dev --turbopack
+
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.2.132:3000
+✓ Ready in 448ms
+
+⚠ Slow filesystem detected. The benchmark took 226ms. If /home/project/tea-culture/cha-yuan/frontend/.next/dev is a network drive, consider moving it to a local folder.
+See more: https://nextjs.org/docs/app/guides/local-development
+○ Compiling / ...
+ GET / 200 in 4.8s (next.js: 4.3s, application-code: 428ms)
+ GET / 200 in 18ms (next.js: 5ms, application-code: 13ms)
+ GET /shop 200 in 502ms (next.js: 454ms, application-code: 48ms)
+ GET /products 200 in 1037ms (next.js: 900ms, application-code: 137ms)
+ GET /products 200 in 154ms (next.js: 3ms, application-code: 150ms)
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+ GET /products/alishan-high-mountain 200 in 1367ms (next.js: 1281ms, application-code: 86ms)
+ GET /products/matcha-ceremonial 200 in 146ms (next.js: 40ms, application-code: 106ms)
+ GET /products/raw-puerh-2024 200 in 142ms (next.js: 35ms, application-code: 107ms)
+ GET / 200 in 113ms (next.js: 4ms, application-code: 109ms)
+ GET / 200 in 14ms (next.js: 4ms, application-code: 10ms)
+
+

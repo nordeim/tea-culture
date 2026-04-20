@@ -12,6 +12,7 @@ export interface TeaCategory {
   description: string;
   brewing_temp_celsius: number;
   brewing_time_seconds: number;
+  product_count?: number;
 }
 
 // Origin Types
@@ -22,6 +23,7 @@ export interface TeaOrigin {
   region: string;
   description: string;
   image?: string;
+  product_count?: number;
 }
 
 // Product Types

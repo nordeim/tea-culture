@@ -137,7 +137,7 @@ class ProductFilterSchema(Schema):
 # ==================== ENDPOINTS ====================
 
 
-@router.get("/products/", response=List[ProductListSchema])
+@router.get("/", response=List[ProductListSchema])
 @paginate(PageNumberPagination, page_size=12)
 def list_products(request, filters: ProductFilterSchema = Query(...)):
     """
@@ -187,7 +187,7 @@ def list_products(request, filters: ProductFilterSchema = Query(...)):
     return list(queryset)
 
 
-@router.get("/products/{slug}/", response=ProductDetailSchema)
+@router.get("/{slug}/", response=ProductDetailSchema)
 def get_product_detail(request, slug: str):
     """
     Get full product details by slug.

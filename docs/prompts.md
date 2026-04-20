@@ -6,6 +6,10 @@ Awesome job on your meticulous analysis, planning and execution. Please keep up 
 
 ---
 
+Please meticulously create a briefing document for an AI coding agent to be able to continue from the present state. After conducting your meticulous codebase review to align your understanding of the codebase, you will create a comprehensive *single-source-of-truth* briefing document for any coding agent or human developer to have the same deep understanding of the project and the current codebase status. Save the agent *briefing document* that captures your aligned and validated understanding as a markdown file `CLAUDE.md`. 
+
+---
+
 Awesome meticulous review, analysis and planning. Please keep up the good work. Yes, please meticulously plan and proceed in logical phases. For each phase, please meticulously plan to create the sub-plan for the phase before proceeding according to it. Please think deeper and think harder to deeply explore thoroughly and systematically how you would re-imagine the codebase, then think how you will break it down into practical phase with a checklist and file list for each phase. then meticulously create an implementation plan. remember to save the master execution plan and all sub-plans as you proceed from phase to phase.
 
 1. Create sub-plans for each phase before proceeding
